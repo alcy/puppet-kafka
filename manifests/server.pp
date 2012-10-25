@@ -30,14 +30,15 @@ class kafka::server(
 
 	file { "/etc/kafka/server.properties":
 		content => template("kafka/server.properties.erb"),
-		require => Class["kafka::config"],
+		require => [Class["kafka::config"], Class["kafka::install"]],
 	}
 
 	file { $log_dir:
-		owner  => "kafka",
-		group  => "kafka",
-		mode   => 0755,
-		ensure => "directory",
+		owner   => "kafka",
+		group   => "kafka",
+		mode    => 0755,
+		ensure  => "directory",
+		require => Class["kafka::install"],
 	}
 
 	service { "kafka":
