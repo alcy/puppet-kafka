@@ -43,7 +43,7 @@ class kafka::server(
 
 	service { "kafka":
 		ensure     => running,
-		require    => [Package["kafka"], File["/etc/kafka/server.properties"], File[$log_dir]],
+		require    => [Class["kafka::install"], File["/etc/kafka/server.properties"], File[$log_dir]],
 		hasrestart => true,
 		hasstatus  => true,
 	}
