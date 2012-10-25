@@ -15,7 +15,7 @@ include kafka
 
 # include common config
 class { "kafka::config":
-    zookeeper_hosts => ["zk1:2181","zk2:2181"],
+    zookeeper_hosts => ["zk1:2181", "zk2:2181", "zk3:2181"],
 }
 
 # start a kafka broker
