@@ -1,23 +1,27 @@
 # == Class kafka::server
-# 
+#
 class kafka::server(
-	$broker_id                              = undef,
-	$port                                   = 9092,
-	$num_threads                            = 8,
-	$log_dir                                = "/tmp/kafka-logs",
-	$num_partitions                         = 1,
-	log_flush_interval                      = 10000,
-	log_default_flush_interval_ms           = 1000, 
-	log_default_flush_scheduler_interval_ms = 1000,
-	log_retention_hours                     = 168, # 1 week
-	log_retention_size                      = -1,
-	log_file_size                           = 536870912,
-	log_cleanup_interval_mins               = 1) 
+	$broker_id                               = undef,
+	$log_dir                                 = "/var/lib/kafka",
+	$port                                    = 9092,
+	$num_threads                             = 8,
+	$num_partitions                          = 1,
+	$socket_send_buffer                      = 1048576,
+	$socket_receive_buffer                   = 1048576,
+	$max_socket_request_bytes                = 104857600,
+	$log_flush_interval                      = 10000,
+	$log_default_flush_interval_ms           = 1000, 
+	$log_default_flush_scheduler_interval_ms = 1000,
+	$log_retention_hours                     = 168, # 1 week
+	$log_retention_size                      = -1,
+	$log_file_size                           = 536870912,
+	$log_cleanup_interval_mins               = 1)
 {
-	# Infer the broker_id from numbers in the hostname
-	# if is not manually passed in.
-	if (!$broker_id) {
-		$broker_id = inline_template("<%= hostname.gsub(/[^\d]/, '').to_i %>")
+	# Infer the $brokerid from numbers in the hostname
+	# if is not manually passed in as $broker_d
+	$brokerid = $broker_id ? {
+		undef   => inline_template('<%= hostname.gsub(/[^\d]/, "").to_i %>'),
+		default => $broker_id
 	}
 
 	# define local variables from kafka::config class for use in ERb template.
@@ -29,9 +33,16 @@ class kafka::server(
 		require => Class["kafka::config"],
 	}
 
+	file { $log_dir:
+		owner  => "kafka",
+		group  => "kafka",
+		mode   => 0755,
+		ensure => "directory",
+	}
+
 	service { "kafka":
 		ensure     => running,
-		require    => [Package["kafka"], File["/etc/kafka/server.properties"]]
+		require    => [Package["kafka"], File["/etc/kafka/server.properties"], File[$log_dir]],
 		hasrestart => true,
 		hasstatus  => true,
 	}

@@ -7,7 +7,7 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-brokerid=<%= broker_id %>
+brokerid=<%= brokerid %>
 
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
@@ -22,16 +22,16 @@ port=<%= port %>
 
 # The number of processor threads the socket server uses for receiving and answering requests. 
 # Defaults to the number of cores on the machine
-num.threads=<% num_threads %>
+num.threads=<%= num_threads %>
 
 # The send buffer (SO_SNDBUF) used by the socket server
-socket.send.buffer=1048576
+socket.send.buffer=<%= socket_send_buffer %>
 
 # The receive buffer (SO_RCVBUF) used by the socket server
-socket.receive.buffer=1048576
+socket.receive.buffer=<%= socket_receive_buffer %>
 
 # The maximum size of a request that the socket server will accept (protection against OOM)
-max.socket.request.bytes=104857600
+max.socket.request.bytes=<%= max_socket_request_bytes %>
 
 
 ############################# Log Basics #############################

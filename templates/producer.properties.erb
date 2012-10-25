@@ -5,11 +5,7 @@
 ############################# Producer Basics #############################
 
 # need to set either broker.list or zk.connect
-
-# configure brokers statically
-# format: brokerid1:host1:port1,brokerid2:host2:port2 ...
-# broker.list=0:localhost:9092
-
+<% if @zookeeper_hosts -%>
 # discover brokers from ZK
 zk.connect=<%= zookeeper_hosts.join(',') %>
 
@@ -18,6 +14,25 @@ zk.connect=<%= zookeeper_hosts.join(',') %>
 
 # the max time that the client waits to establish a connection to zookeeper; default is 6000
 zk.connectiontimeout.ms=<%= zookeeper_connectiontimeout_ms %>
+
+# configure brokers statically
+# format: brokerid1:host1:port1,brokerid2:host2:port2 ...
+# broker.list=0:localhost:9092
+
+<% else -%>
+# configure brokers statically
+# format: brokerid1:host1:port1,brokerid2:host2:port2 ...
+broker.list=0:localhost:9092
+
+# discover brokers from ZK
+#zk.connect=
+
+# zookeeper session timeout; default is 6000
+#zk.sessiontimeout.ms=
+
+# the max time that the client waits to establish a connection to zookeeper; default is 6000
+#zk.connectiontimeout.ms=<%= zookeeper_connectiontimeout_ms %>
+<% end -%>
 
 # name of the partitioner class for partitioning events; default partition spreads data randomly
 #partitioner.class=

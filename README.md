@@ -27,4 +27,3 @@ class { "kafka::server":
 If you do not set ```broker_id``` on kafka::server, the broker_id will be
 inferred from integers in the node's hostname.  E.g. kafka01 will render
 ```server.properties``` with ```brokerid``` == 1.
-

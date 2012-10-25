@@ -1,8 +1,8 @@
-# == Class kafka::config($zookeeper_hosts = [''])
-# 
+# == Class kafka::config
+#
 class kafka::config(
-	$zookeeper_hosts                = ["127.0.0.1:2181"],
-	$zookeeper_connectiontimeout_ms = 1000000) 
+	$zookeeper_hosts                = undef,
+	$zookeeper_connectiontimeout_ms = 1000000,
 	$kafka_log_file                 = "/var/log/kafka/kafka.log",
 	$producer_type                  = "async",
 	$producer_batch_size            = 200)
@@ -11,11 +11,11 @@ class kafka::config(
 		content => template("kafka/log4j.properties.erb"),
 	}
 
-	file { "/etc/kafka/producer.properties.erb":
+	file { "/etc/kafka/producer.properties":
 		content => template("kafka/producer.properties.erb"),
 	}
 
-	file { "/etc/kafka/consumer.properties.erb":
+	file { "/etc/kafka/consumer.properties":
 		content => template("kafka/consumer.properties.erb"),
 	}
 }
