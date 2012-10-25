@@ -1,0 +1,19 @@
+# Note: This file is managed by Puppet.
+
+#
+# see kafka.consumer.ConsumerConfig for more details
+#
+
+# zk connection string
+# comma separated host:port pairs, each corresponding to a zk
+# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"
+zk.connect=<%= zookeeper_hosts.join(',') %>
+
+# timeout in ms for connecting to zookeeper
+zk.connectiontimeout.ms=<%= zookeeper_connectiontimeout_ms %>
+
+#consumer group id
+groupid=test-consumer-group
+
+#consumer timeout
+#consumer.timeout.ms=5000
