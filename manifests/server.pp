@@ -2,7 +2,7 @@
 #
 class kafka::server(
 	$broker_id                               = undef,
-	$log_dir                                 = "/var/lib/kafka",
+	$log_dir                                 = "/var/lib/kafka/log",
 	$port                                    = 9092,
 	$num_threads                             = 8,
 	$num_partitions                          = 1,
