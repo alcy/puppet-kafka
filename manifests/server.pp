@@ -33,6 +33,13 @@ class kafka::server(
 		require => [Class["kafka::config"], Class["kafka::install"]],
 	}
 
+	file { "/var/log/kafka":
+		owner  => "kafka",
+		group  => "kafka",
+		ensure => "directory",
+		require => Class['kafka::install']
+	}
+
 	file { $log_dir:
 		owner   => "kafka",
 		group   => "kafka",

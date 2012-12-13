@@ -6,7 +6,10 @@ class kafka::config(
 	$kafka_log_file                 = "/var/log/kafka/kafka.log",
 	$producer_type                  = "async",
 	$producer_batch_size            = 200)
-{
+{        
+        include kafka::install
+	Class['kafka::install']->Class['kafka::config']
+
 	file { "/etc/kafka/log4j.properties":
 		content => template("kafka/log4j.properties.erb"),
 	}
